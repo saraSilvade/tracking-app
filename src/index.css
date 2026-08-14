@@ -1,0 +1,43 @@
+@import "tailwindcss";
+  /* Backgrounds, Containers , Text reward colors*/
+@theme {
+  
+  --color-quest-bg: #080b14;
+  --color-header-bg: #61518e20;
+   --color-avatar-bg: #523c8e5e;
+  --color-card-bg: #0d1117;
+  --color-card-box: #0d111e;
+  --color-card-active: #141023;
+  --color-bar-bg: #5c597ddd;
+ 
+
+
+  --color-quest-cyan: #00f5ff;
+  --color-quest-purple: #bf5af2;
+  --color-quest-pink: #ff2d78;
+  --color-quest-gold: #ffd700;
+  --color-quest-green: #39ff14;
+  --color-quest-blue: #4d9fff;
+  --color-quest-orange: #ff8c42;
+  --color-max-reward: #eeb20d;
+
+  --color-quest-muted: #a0aec0;
+  --color-quest-text: #c0c8ff;
+    --color-app-bg: #07090e;         /* Main deep dark background */
+  --color-glass-card: #0d121d;     /* Primary glass container background */
+  --color-glass-box: #131a29;      /* Inner input/button/box background */
+  --color-glass-border: #1d273a;   /* Subtle blue-grey card border */
+
+  /* Cyber Accents & Status */
+  --color-accent-cyan: #22d3ee;    /* Bright cyan (Stats, Level text, Active links) */
+  --color-accent-purple: #a855f7;  /* AI Advisor title, badges, highlights */
+  --color-accent-gold: #fbbf24;    /* Gold Coins & Gold text */
+  --color-accent-green: #22c55e;   /* Online status indicator & positive badges */
+  --color-accent-blue: #3b82f6;    /* Secondary blue accents & Gems */
+  --color-accent-orange: #f97316;  /* Flame/Streak counters */
+
+  /* Text & UI Neutrals */
+  --color-text-main: #f8fafc;      /* Primary white text */
+  --color-text-muted: #64748b;     /* Subtitles, labels, inactive text */
+  --color-text-dim: #94a3b8;  
+}
