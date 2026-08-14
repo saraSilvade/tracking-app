@@ -12,7 +12,7 @@
  
 
 
-  --color-quest-cyan: #00f5ff;
+  --color-quest-cyan: #1fe6ec;
   --color-quest-purple: #bf5af2;
   --color-quest-pink: #ff2d78;
   --color-quest-gold: #ffd700;
@@ -29,7 +29,7 @@
   --color-glass-border: #1d273a;   /* Subtle blue-grey card border */
 
   /* Cyber Accents & Status */
-  --color-accent-cyan: #22d3ee;    /* Bright cyan (Stats, Level text, Active links) */
+  --color-accent-cyan: #6ee4f6;    /* Bright cyan (Stats, Level text, Active links) */
   --color-accent-purple: #a855f7;  /* AI Advisor title, badges, highlights */
   --color-accent-gold: #fbbf24;    /* Gold Coins & Gold text */
   --color-accent-green: #22c55e;   /* Online status indicator & positive badges */
