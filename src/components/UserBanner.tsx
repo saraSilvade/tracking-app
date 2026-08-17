@@ -59,7 +59,7 @@ const UserBanner = ({user}: UserProfileprops) => {
 
 
 {/* 3. Treasury (Currency) Card */}
-<div className='w-75 bg-glass-card border border-cyan-900   rounded-2xl p-7  justify-around backdrop-blur-md h-50  '>
+<div className='w-75 bg-glass-card border border-cyan-900   rounded-2xl p-5  justify-around backdrop-blur-md h-52  '>
 <span className='text-text-muted  '> Treasury</span>
 
     <div className='flex gap-4 my-1.5'>
@@ -72,25 +72,25 @@ const UserBanner = ({user}: UserProfileprops) => {
 
 
 
-    <div className='flex  gap-3'>
+    <div className='flex  gap-3 mt-3'>
        
-       <div className=' w-25 bg-glass-box border border-cyan-700 rounded-md '> 
-        <div className='flex items-center gap-2 pl-2'>
-<span >💎</span> 
+       <div className=' w-30 bg-glass-box border border-cyan-700 rounded-md  '> 
+        <div className='flex  items-center gap-2 pl-2 pt-2'>
+<span className='text-sm' >💎</span> 
   <div className='text-text-muted text-xs '>{user.gems} 
           
         </div>
         </div>
         
       
-          <span className='text-text-muted text-xs pl-2'>Gems</span>
+          <span className='text-text-muted text-xs pl-2 '>Gems</span>
        </div>
 
 
 
-    <div className=' w-25 bg-glass-box border border-cyan-700 rounded-md '> 
-        <div className='flex  items-center gap-2 pl-2'>
-   <span>🏆</span> 
+    <div className=' w-30 bg-glass-box border border-cyan-700 rounded-md '> 
+        <div className='flex  items-center gap-2 pl-2 pt-2'>
+   <span className='text-sm' >🏆</span> 
         <div className='text-text-muted text-xs '>{user.tro} </div>
                  
         </div>
