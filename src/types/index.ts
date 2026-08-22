@@ -14,7 +14,7 @@ export interface UserProfile {
 
 }
 
-
+//Habits data types
 export interface Habits{
 
     id: string;
@@ -22,4 +22,13 @@ export interface Habits{
     icon: string;
     count: number;
    
+}
+
+//Dailies data types
+export interface Dailies {
+    id: string; 
+    title: string;
+    icon:string;
+    streak:number; 
+    completed: boolean;
 }

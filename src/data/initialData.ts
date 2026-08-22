@@ -1,7 +1,7 @@
 
 import type { UserProfile } from "../types"
 import type { Habits } from "../types"
-
+import type { Dailies } from "../types"
 
 export const initialUser: UserProfile = {
 name: 'IrisSun',
@@ -23,4 +23,13 @@ export const initialHabits: Habits[] = [
     {id: '2', title: 'Exercise', icon: '🏃', count: 5}, 
     {id: '3', title: 'read 30 minutes', icon: '📖', count: 2}
 
+]
+
+
+export const initialDailies: Dailies[] = [
+    
+    { id: 'd1', title: 'Morning Standup', icon: '☀️', completed: true, streak: 12 },
+  { id: 'd2', title: 'Review Code Logs', icon: '📋', completed: true, streak: 5 },
+  { id: 'd3', title: 'Evening Reflection', icon: '🌙', completed: false, streak: 3 },
+  { id: 'd4', title: '30-min Deep Focus', icon: '🔮', completed: false, streak: 8 },
 ]
