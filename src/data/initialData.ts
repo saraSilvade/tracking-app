@@ -1,5 +1,7 @@
 
 import type { UserProfile } from "../types"
+import type { Habits } from "../types"
+
 
 export const initialUser: UserProfile = {
 name: 'IrisSun',
@@ -13,3 +15,12 @@ gold: 100,
 gems: 200,
 tro: 40,
 }
+
+
+
+export const initialHabits: Habits[] = [
+    {id: '1', title: 'Meditate', icon: '🧘', count: 3}, 
+    {id: '2', title: 'Exercise', icon: '🏃', count: 5}, 
+    {id: '3', title: 'read 30 minutes', icon: '📖', count: 2}
+
+]

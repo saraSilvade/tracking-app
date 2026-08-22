@@ -31,7 +31,7 @@ const date = formatDate.replace( /,/g, ' .')
 
     return(
         <section className='mt-5'>
-<div className="w-full flex items-center justify-between gap-4 text-xs font-mono py-2">
+<div className="w-full flex items-center justify-between gap-4 text-xs font-mono py-2 ">
 
 <span className='text-text-muted'> {date}</span>
 <span className='bg-glass-border h-0.5 w-120'></span>

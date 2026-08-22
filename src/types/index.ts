@@ -13,3 +13,13 @@ export interface UserProfile {
     tro: number;
 
 }
+
+
+export interface Habits{
+
+    id: string;
+    title: string;
+    icon: string;
+    count: number;
+   
+}
