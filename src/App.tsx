@@ -7,7 +7,7 @@ import Header from './components/Header';
 import { initialDailies } from './data/initialData';
 import type  { Habits } from './types';
 import type { Dailies } from './types';
-
+import UserAuth from './components/UserAuthModal';
 import DashboardSubHeader
  from './components/DashboardSubHeader';
 
@@ -65,6 +65,7 @@ const checkedDailiesBox = (id:string) =>{
 <DailiesCol  dailies={daily} onChecked={checkedDailiesBox}  />
 </div>
       </div>
+      <UserAuth/>
     </div>
   );
 }

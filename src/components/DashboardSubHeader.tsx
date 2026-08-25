@@ -41,7 +41,7 @@ const date = formatDate.replace( /,/g, ' .')
      <span className='text-text-muted text-xs '> Active Quest</span>
     </div>
     
-    <div>   <span className='text-quest-purple [text-shadow:0_0_10px_rgba(128, 0, 128)]'>{dailiesCompleted}/{dailiesTotal} </span>
+    <div>   <span className='text-fuchsia-400 [text-shadow:0_0_10px_rgba(128, 0, 128)]'>{dailiesCompleted}/{dailiesTotal} </span>
     <span className='text-text-muted text-xs'> Dailies Done</span>
      </div>
 <div>  
