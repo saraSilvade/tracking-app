@@ -30,7 +30,7 @@ const DailiesCol = ({dailies, onChecked} : DailiesProps) => {
                 onClick={() => onChecked(daily.id)}
                 className={`w-7 h-7 rounded-lg border flex items-center justify-center transition-all cursor-pointer ${
                   daily.completed
-                    ? 'bg-accent-purple/20 border-accent-purple text-accent-purple  shadow-[0_0_10px_rgba(168,85,247,0.4)]  '
+                    ? 'bg-accent-purple/20 border-accent-purple  text-accent-purple  shadow-[0_0_10px_rgba(168,85,247,0.4)]  '
                     : 'bg-[#110c22] border-glass-border  text-transparent hover:border-accent-purple/60'
                 }`}
               >
