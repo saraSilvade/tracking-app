@@ -3,13 +3,20 @@ import { createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfi
 import {auth} from '../firebase'
 import logo from '../asset/logo.svg'
 
-export default function UserAuth(){
+
+interface UserAuthProps{
+  verify: (userData : {username : string , email: string}) => void
+}
+
+
+
+
+export default function UserAuth({verify} : UserAuthProps){
 const [isSignup, setSignup] = useState(false);
 const [username, setUsername] = useState(''); 
 const [email, setEmail] = useState('');
 const [password, setPassword] = useState('');
 const [error, setError] = useState('');
-
 
 
 
@@ -29,10 +36,22 @@ await updateProfile(userSignupCreds.user, {displayName: username})
 
   }else{
     await signInWithEmailAndPassword(auth, email, password)
+     verify({
+      username: isSignup ? username : email.split('@')[0], 
+      email: email,
+    })
   }
-}catch(err : any){
+}catch(err :any){
+if(err){
+  setError('Invalid email or password. Please try again.');
+}else{
   setError(err.message)
 }
+}
+
+
+
+
 }
 
 
@@ -59,12 +78,26 @@ await updateProfile(userSignupCreds.user, {displayName: username})
 
 
   <div className="grid grid-cols-2 gap-2 p-1 bg-[#07090e]/60 border border-glass-border rounded-xl mb-6">
-    <button type='button' onClick={ ()=> setSignup(false)} className={`py-2 text-xs font-mono font-bold rounded-lg transition-all cursor-pointer ${
+    <button type='button' onClick={ ()=> {setSignup(false) 
+      setEmail('');
+      setPassword('');
+      setUsername('');
+      setError('');
+    }}
+    
+    
+    className={`py-2 text-xs font-mono font-bold rounded-lg transition-all cursor-pointer ${
               !isSignup
+              
                 ? 'bg-shinny-purple text-white shadow-[0_0_10px_rgba(168,85,247,0.3)]'
                 : 'text-text-muted hover:text-white'
             }`}> Log In   </button>
-    <button type='button' onClick={()=> setSignup(true)} className={`py-2 text-xs font-mono font-bold rounded-lg transition-all cursor-pointer ${
+    <button type='button' onClick={()=> {setSignup(true) 
+        setEmail('');
+      setPassword('');
+      setUsername('');
+      setError('');
+    } }className={`py-2 text-xs font-mono font-bold rounded-lg transition-all cursor-pointer ${
               isSignup
                 ? 'bg-shinny-purple text-white shadow-[0_0_10px_rgba(168,85,247,0.3)]'
                 : 'text-text-muted hover:text-white'
@@ -92,7 +125,7 @@ await updateProfile(userSignupCreds.user, {displayName: username})
     <div>
       <label className="block text-xs font-mono text-text-muted uppercase mb-1"> Email:</label>
       <input 
-      type='text'
+      type='email'
       required
       value={email}
       onChange={(e)=> setEmail(e.target.value)}
@@ -103,7 +136,7 @@ await updateProfile(userSignupCreds.user, {displayName: username})
 
     <div>
 <label className="block text-xs font-mono text-text-muted uppercase mb-1">Password:</label>
-<input type='text'
+<input type='password'
 required
 value={password}
 onChange={(e) => setPassword(e.target.value)}
