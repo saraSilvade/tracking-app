@@ -39,7 +39,7 @@ function HabitsCol({habits, habitIncrement, habitDecrement}: HabitsPropList) {
 
 
 
-            <button className="w-8 h-8 rounded-lg bg-quest-purple  border border-shinny-purple2 text-shinny-purple3 hover:bg-quest-purple hover:text-pink-50 flex items-center justify-center font-bold cursor-pointer " onClick={() => habitDecrement(habit.id)}>-</button>
+            <button className="w-8 h-8 rounded-lg bg-quest-purple   shadow-[0_0_10px_rgba(168,85,247,0.4)]  border border-accent-purple text-accent-purple   hover:bg-quest-purple hover:text-pink-50 flex items-center justify-center font-bold cursor-pointer " onClick={() => habitDecrement(habit.id)}>-</button>
          </div>
     </div>
 

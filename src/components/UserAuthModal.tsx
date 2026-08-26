@@ -82,7 +82,7 @@ await updateProfile(userSignupCreds.user, {displayName: username})
       required
       value={username}
       onChange={(e)=> setUsername(e.target.value)}
-      placeholder="Hero Name"
+      placeholder='Hero'
       className="w-full bg-[#07090e]/80 border border-glass-border rounded-xl px-4 py-2.5 text-sm text-text-main placeholder:text-text-muted/50 focus:outline-none focus:border-accent-purple transition-all"
       />
 
