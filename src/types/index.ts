@@ -16,19 +16,23 @@ export interface UserProfile {
 
 //Habits data types
 export interface Habits{
-
-    id: string;
-    title: string;
-    icon: string;
-    count: number;
+id: string;
+  title: string;
+  icon: string;
+  unit: string;
+  count: number;
+  target: number;
+  stepSize: number;
+  accentColor: string;
    
 }
 
 //Dailies data types
 export interface Dailies {
-    id: string; 
-    title: string;
-    icon:string;
-    streak:number; 
-    completed: boolean;
+   id: string;
+  title: string;
+  icon: string;
+  completed: boolean;
+  streakDays?: number;
+  note?: string;
 }

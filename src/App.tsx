@@ -24,6 +24,8 @@ export default function App() {
   const [habit, setHabit] = useState<Habits[]>(initialHabits);
   const [daily, setDaily] = useState<Dailies[]>(initialDailies);
 
+  const [isHabitModalOpen, setIsHabitModalOpen] = useState(false);
+  const [editingHabit, setEditingHabit] = useState <Habits | null> (null);
 
 useEffect(() =>{
   const unsubscribe = onAuthStateChanged(auth, (currentUser)=> {
@@ -46,7 +48,7 @@ const incrementFunction = (id : string) =>{
 setHabit((prevHabits) => 
 
   prevHabits.map((item) => 
-  item.id === id? {...item, count: item.count + 1} : item
+  item.id === id? {...item, count: item.count + (item.stepSize || 1)} : item
   )
 
 )
@@ -59,8 +61,25 @@ const decrementFunction = (id:string) =>{
 
   setHabit((prevHabits) => 
   prevHabits.map((item)=> 
-  item.id === id ? {...item, count: Math.max(0, item.count -1)} : item))
+  item.id === id ? {...item, count: Math.max(0, item.count - (item.stepSize || 1))} : item))
 }
+
+
+
+// Delete an existing habit
+
+const deleteHabitButton = (id: string)=>{
+  setHabit((prevHabits) => prevHabits.filter((item)=> item.id !== id))
+
+};
+
+
+// Add new Habit modal 
+const addNewHabit = ()=>{
+  setEditingHabit(null);
+  setIsHabitModalOpen(true);
+}
+
 
 // checked/unchecked dailies
 const checkedDailiesBox = (id:string) =>{
@@ -86,7 +105,7 @@ return(
   return (
     <div className="min-h-screen bg-app-bg text-text-main p-6 font-sans">
       <div className="max-w-7xl mx-auto">
-   <div className="flex justify-between items-center mb-6 gap-3">
+   <div className="flex justify-between items-center mb-4">
           <Header />
        <LogoutButton/>
         </div>
@@ -97,8 +116,13 @@ return(
 
 
 <div className='flex justify-around'>
-  <HabitsCol habits={habit} habitIncrement={incrementFunction} 
-  habitDecrement={decrementFunction}/>
+  <HabitsCol habits={habit} 
+  habitIncrement={incrementFunction} 
+  habitDecrement={decrementFunction}
+  onDelete={deleteHabitButton}
+  onOpenAddModal={addNewHabit}
+  
+  />
 <DailiesCol  dailies={daily} 
 onChecked={checkedDailiesBox}  />
 </div>
