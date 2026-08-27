@@ -22,7 +22,7 @@ id: string;
   unit: string;
   count: number;
   target: number;
-  stepSize: number;
+  countPerTap: number;
   accentColor: string;
    
 }

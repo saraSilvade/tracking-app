@@ -13,9 +13,9 @@ import UserAuth from './components/UserAuthModal';
 
 import DashboardSubHeader from './components/DashboardSubHeader';
 import DailiesCol from './components/DailiesCol';
-import HabitsCol from './components/HabitsCol'
 import LogoutButton from './components/LogoutButton';
-
+import HabitModal from './components/HabitsModal';
+import HabitsCol from './components/HabitsCol';
 export default function App() {
 
   const [firebaseUser, setFirebaseUser] = useState<User | null>(null);
@@ -48,7 +48,7 @@ const incrementFunction = (id : string) =>{
 setHabit((prevHabits) => 
 
   prevHabits.map((item) => 
-  item.id === id? {...item, count: item.count + (item.stepSize || 1)} : item
+  item.id === id? {...item, count: item.count + (item.countPerTap|| 1)} : item
   )
 
 )
@@ -61,7 +61,7 @@ const decrementFunction = (id:string) =>{
 
   setHabit((prevHabits) => 
   prevHabits.map((item)=> 
-  item.id === id ? {...item, count: Math.max(0, item.count - (item.stepSize || 1))} : item))
+  item.id === id ? {...item, count: Math.max(0, item.count - (item.countPerTap || 1))} : item))
 }
 
 
@@ -74,12 +74,33 @@ const deleteHabitButton = (id: string)=>{
 };
 
 
-// Add new Habit modal 
+// Add New Habit modal 
 const addNewHabit = ()=>{
   setEditingHabit(null);
   setIsHabitModalOpen(true);
 }
+// Open Edit Modal
+ const handleOpenEditModal = (habitToEdit: Habits) => {
+    setEditingHabit(habitToEdit);
+    setIsHabitModalOpen(true);
+  };
+// Create or update and save new habit 
+const handleSaveHabit = (habitsData : Omit< Habits, 'id' | 'count'> | Habits)=>{
+  // This line is for editing an existing habit
+  if(editingHabit){
+    setHabit((prev) => prev.map((item)=> item.id === editingHabit.id? {...editingHabit , ...habitsData}: item
+  ))
+  }else{
+    // This line is for creating a new habit
+    const newHabit : Habits = {
+      ...(habitsData as Omit< Habits, 'id' | 'count' >), 
+      id: crypto.randomUUID(), 
+      count : 0
+    };
+    setHabit((prev) => [...prev, newHabit]);
+  }
 
+}
 
 // checked/unchecked dailies
 const checkedDailiesBox = (id:string) =>{
@@ -121,6 +142,7 @@ return(
   habitDecrement={decrementFunction}
   onDelete={deleteHabitButton}
   onOpenAddModal={addNewHabit}
+  onEdit={handleOpenEditModal}
   
   />
 <DailiesCol  dailies={daily} 
@@ -129,7 +151,10 @@ onChecked={checkedDailiesBox}  />
 
 
       </div>
-
+<HabitModal isOpen={isHabitModalOpen}
+        onClose={() => setIsHabitModalOpen(false)}
+        onSave={handleSaveHabit}
+        initialData={editingHabit}/>
     </div>
   );
 }

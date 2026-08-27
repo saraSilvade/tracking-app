@@ -79,7 +79,7 @@ function HabitsCol({
                     {isCompleted && <span className="text-xs">✅</span>}
                   </div>
                   <p className="text-[11px] font-mono text-text-muted">
-                    {habit.unit || 'units'} · target {habit.target}
+                   {habit.target}   {habit.unit || 'units'} 
                   </p>
                 </div>
               </div>
