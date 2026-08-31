@@ -10,12 +10,12 @@ import { initialDailies } from './data/initialData';
 import type  { Habits } from './types';
 import type { Dailies } from './types';
 import UserAuth from './components/UserAuthModal';
-
 import DashboardSubHeader from './components/DashboardSubHeader';
 import DailiesCol from './components/DailiesCol';
 import LogoutButton from './components/LogoutButton';
 import HabitModal from './components/HabitsModal';
 import HabitsCol from './components/HabitsCol';
+import DailyModal from './components/DailyModal';
 export default function App() {
 
   const [firebaseUser, setFirebaseUser] = useState<User | null>(null);
@@ -26,7 +26,41 @@ export default function App() {
 
   const [isHabitModalOpen, setIsHabitModalOpen] = useState(false);
   const [editingHabit, setEditingHabit] = useState <Habits | null> (null);
+// 1. Daily Modal States
+const [isDailyModalOpen, setIsDailyModalOpen] = useState(false);
+const [editingDaily, setEditingDaily] = useState<Dailies | null>(null);
 
+// 2. Handlers
+const handleDeleteDaily = (id: string) => {
+  setDaily((prev) => prev.filter((item) => item.id !== id));
+};
+
+const handleOpenAddDaily = () => {
+  setEditingDaily(null);
+  setIsDailyModalOpen(true);
+};
+
+const handleOpenEditDaily = (dailyToEdit: Dailies) => {
+  setEditingDaily(dailyToEdit);
+  setIsDailyModalOpen(true);
+};
+
+const handleSaveDaily = (dailyData: Omit<Dailies, 'id' | 'completed'> | Dailies) => {
+  if (editingDaily) {
+    setDaily((prev) =>
+      prev.map((item) =>
+        item.id === editingDaily.id ? { ...editingDaily, ...dailyData } : item
+      )
+    );
+  } else {
+    const newDaily: Dailies = {
+      ...(dailyData as Omit<Dailies, 'id' | 'completed'>),
+      id: crypto.randomUUID(),
+      completed: false
+    };
+    setDaily((prev) => [...prev, newDaily]);
+  }
+};
 useEffect(() =>{
   const unsubscribe = onAuthStateChanged(auth, (currentUser)=> {
     setFirebaseUser(currentUser);
@@ -84,6 +118,7 @@ const addNewHabit = ()=>{
     setEditingHabit(habitToEdit);
     setIsHabitModalOpen(true);
   };
+  
 // Create or update and save new habit 
 const handleSaveHabit = (habitsData : Omit< Habits, 'id' | 'count'> | Habits)=>{
   // This line is for editing an existing habit
@@ -146,7 +181,11 @@ return(
   
   />
 <DailiesCol  dailies={daily} 
-onChecked={checkedDailiesBox}  />
+onChecked={checkedDailiesBox}
+onDelete={handleDeleteDaily}
+onEdit={handleOpenEditDaily}
+onOpenAddModal={handleOpenAddDaily}
+  />
 </div>
 
 
@@ -155,6 +194,14 @@ onChecked={checkedDailiesBox}  />
         onClose={() => setIsHabitModalOpen(false)}
         onSave={handleSaveHabit}
         initialData={editingHabit}/>
+
+
+
+    <div>
+      <DailyModal onSave={handleSaveDaily} isOpen={isDailyModalOpen}  onClose={ () => setIsDailyModalOpen (false)} initialData={editingDaily} />
     </div>
+
+    </div>
+
   );
 }

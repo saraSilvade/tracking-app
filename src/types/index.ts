@@ -35,4 +35,5 @@ export interface Dailies {
   completed: boolean;
   streakDays?: number;
   note?: string;
+  
 }

@@ -19,17 +19,16 @@ tro: 40,
 
 
 export const initialHabits: Habits[] = [
-    {id: '1', title: 'Meditate', icon: '🧘', count: 3}, 
-    {id: '2', title: 'Exercise', icon: '🏃', count: 5}, 
-    {id: '3', title: 'read 30 minutes', icon: '📖', count: 2}
+    {id: '1', title: 'Meditate', icon: '🧘', count: 3, target: 30,  unit: 'Minutes', accentColor: '#ffa6ef', countPerTap: 5}, 
+    {id: '3', title: 'read 30 minutes', icon: '📖', count: 2, target: 15,  unit: 'Pages', accentColor: '#a6edff', countPerTap: 15}
 
 ]
 
 
 export const initialDailies: Dailies[] = [
     
-    { id: 'd1', title: 'Morning Standup', icon: '☀️', completed: true, streak: 12 },
-  { id: 'd2', title: 'Review Code Logs', icon: '📋', completed: true, streak: 5 },
-  { id: 'd3', title: 'Evening Reflection', icon: '🌙', completed: false, streak: 3 },
-  { id: 'd4', title: '30-min Deep Focus', icon: '🔮', completed: false, streak: 8 },
+    { id: 'd1', title: 'Morning Standup', icon: '☀️', completed: true, streakDays: 12 },
+  { id: 'd2', title: 'Review Code Logs', icon: '📋', completed: true, streakDays: 5 }
+
+
 ]
