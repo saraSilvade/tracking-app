@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { onAuthStateChanged,  type User } from 'firebase/auth';
+import {doc, onSnapshot, setDoc} from 'firebase/firestore'
+import { db } from './firebase';
 import { auth } from './firebase';
 import { initialUser } from './data/initialData';
 import type { UserProfile } from './types';
@@ -16,6 +18,8 @@ import LogoutButton from './components/LogoutButton';
 import HabitModal from './components/HabitsModal';
 import HabitsCol from './components/HabitsCol';
 import DailyModal from './components/DailyModal';
+import DeleteConfirmationModal from './components/DeleteConfirmationModal';
+
 export default function App() {
 
   const [firebaseUser, setFirebaseUser] = useState<User | null>(null);
@@ -26,11 +30,13 @@ export default function App() {
 
   const [isHabitModalOpen, setIsHabitModalOpen] = useState(false);
   const [editingHabit, setEditingHabit] = useState <Habits | null> (null);
-// 1. Daily Modal States
+//  Daily Modal States
 const [isDailyModalOpen, setIsDailyModalOpen] = useState(false);
 const [editingDaily, setEditingDaily] = useState<Dailies | null>(null);
 
-// 2. Handlers
+// Delete Confirmation state
+const [confirmDelete, setConfirmDelete] = useState <{ id: string; title: string; type: 'habit' | 'daily' } | null>(null);
+//  Handlers
 const handleDeleteDaily = (id: string) => {
   setDaily((prev) => prev.filter((item) => item.id !== id));
 };
@@ -100,12 +106,36 @@ const decrementFunction = (id:string) =>{
 
 
 
-// Delete an existing habit
 
-const deleteHabitButton = (id: string)=>{
-  setHabit((prevHabits) => prevHabits.filter((item)=> item.id !== id))
 
+
+// A helper function to delete after user confirmation
+
+const triggerHabitDelete = (id: string) => {
+  const target = habit.find((h) => h.id === id);
+  if (target) setConfirmDelete({ id: target.id, title: target.title, type: 'habit' });
 };
+
+const triggerDailyDelete = (id: string) => {
+  const target = daily.find((d) => d.id === id);
+  if (target) setConfirmDelete({ id: target.id, title: target.title, type: 'daily' });
+};
+
+// handle delete confirmation, Delete an existing habit
+const confirmBeforeDelete = ()=>{
+  if(!confirmDelete) return null;
+
+if (confirmDelete.type === 'habit') {
+      const updated = habit.filter((h) => h.id !== confirmDelete.id);
+      setHabit(updated);
+     
+    } else {
+      const updated = daily.filter((d) => d.id !== confirmDelete.id);
+      setDaily(updated);
+  
+    }
+    setConfirmDelete(null);
+}
 
 
 // Add New Habit modal 
@@ -113,6 +143,7 @@ const addNewHabit = ()=>{
   setEditingHabit(null);
   setIsHabitModalOpen(true);
 }
+
 // Open Edit Modal
  const handleOpenEditModal = (habitToEdit: Habits) => {
     setEditingHabit(habitToEdit);
@@ -152,11 +183,16 @@ const checkedDailiesBox = (id:string) =>{
       </div>
   )
  }
+ 
 if(!firebaseUser){
 return(
     <UserAuth/>
 )
 }
+
+
+
+
 
   return (
     <div className="min-h-screen bg-app-bg text-text-main p-6 font-sans">
@@ -175,14 +211,14 @@ return(
   <HabitsCol habits={habit} 
   habitIncrement={incrementFunction} 
   habitDecrement={decrementFunction}
-  onDelete={deleteHabitButton}
+  onDelete={triggerHabitDelete}
   onOpenAddModal={addNewHabit}
   onEdit={handleOpenEditModal}
   
   />
 <DailiesCol  dailies={daily} 
 onChecked={checkedDailiesBox}
-onDelete={handleDeleteDaily}
+onDelete={triggerDailyDelete}
 onEdit={handleOpenEditDaily}
 onOpenAddModal={handleOpenAddDaily}
   />
@@ -201,6 +237,12 @@ onOpenAddModal={handleOpenAddDaily}
       <DailyModal onSave={handleSaveDaily} isOpen={isDailyModalOpen}  onClose={ () => setIsDailyModalOpen (false)} initialData={editingDaily} />
     </div>
 
+<DeleteConfirmationModal
+isOpen={confirmDelete !== null}
+title={confirmDelete?.title || ''}
+onConfirm={confirmBeforeDelete}
+onCancel={()=> setConfirmDelete(null)}
+/>
     </div>
 
   );
