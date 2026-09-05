@@ -13,7 +13,7 @@ const UserBanner = ({ user, openAvatarModal }: UserProfileProps) => {
     <section className="flex flex-wrap justify-center items-stretch gap-6 w-full max-w-7xl mx-auto bg-[#110c22]/65 border border-glass-border rounded-2xl p-6 my-6 backdrop-blur-md shadow-[0_0_25px_rgba(168,85,247,0.1)]">
       
       {/* 1. User Profile Card (Standard Size) */}
-      <div className="flex-[1] min-w-[260px] flex items-center gap-4 border border-glass-border bg-[#07090e]/40 rounded-2xl p-5 hover:border-accent-purple/50 transition-colors">
+      <div className="flex-[1] min-w-[270px] flex items-center gap-4 border border-glass-border bg-[#07090e]/40 rounded-2xl p-5 hover:border-accent-purple/50 transition-colors">
         <button
           onClick={openAvatarModal}
           className="relative group shrink-0 p-3.5 text-5xl border border-accent-purple/50 rounded-full  shadow-[0_0_10px_rgba(168,85,247,0.2)] bg-glass-box cursor-pointer overflow-hidden transition-transform active:scale-95"
@@ -28,14 +28,14 @@ const UserBanner = ({ user, openAvatarModal }: UserProfileProps) => {
         <div className="flex flex-col gap-1 overflow-hidden">
           <p className="text-lg font-bold font-mono text-text-main truncate">{user.name}</p>
           <p className="text-xs font-mono text-text-muted truncate mb-2">{user.email}</p>
-          <span className="w-fit text-accent-purple text-xs  font-mono font-bold border  border-accent-purple/40  bg-quest-cyan/10 px-2.5 py-1 rounded-md drop-shadow-[0_0_10px_rgba(168,85,247,0.2)] ">
-            {user.lvlIcon} Lvl {user.level} Warrior
+          <span className="w-35 text-accent-purple text-xs  font-mono font-bold border  border-accent-purple/40  bg-quest-cyan/10 px-3 py-1 rounded-md drop-shadow-[0_0_10px_rgba(168,85,247,0.2)] ">
+       {user.lvlIcon || '🗡️'} Lvl {user.level} {user.title || 'Novice'}
           </span>
         </div>
       </div>
 
       {/* 2. Experience Card (Bigger than 1st) */}
-      <div className="flex-[1.25] min-w-[300px] flex flex-col justify-between border border-glass-border bg-[#07090e]/40 rounded-2xl p-5  hover:border-accent-purple/50 transition-colors">
+      <div className="flex-[1.25] min-w-75 flex flex-col justify-between border border-glass-border bg-[#07090e]/40 rounded-2xl p-5  hover:border-accent-purple/50 transition-colors">
         <div className="flex justify-between items-center font-mono">
           <span className="text-text-muted text-xs font-bold uppercase">Experience</span>
           <span className="text-quest-cyan text-xs font-bold drop-shadow-[0_0_10px_rgba(34,211,238,0.6)]">

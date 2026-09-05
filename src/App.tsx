@@ -21,6 +21,7 @@ import DailyModal from './components/DailyModal';
 import DeleteConfirmationModal from './components/DeleteConfirmationModal';
 import UserAuth from './components/UserAuthModal';
 import AvatarModal from './components/UserAvatarModal';
+import { addRewards } from './utils/UserLevelMath';
 
 export default function App() {
   
@@ -54,6 +55,11 @@ export default function App() {
 
   // ---------------------------------------------------------------------------
   // Firebase Real Time Subscription 
+
+
+
+
+
 
  const handleSelectAvatar = async (newAvatar: string) => {
   if (!firebaseUser) return;
@@ -164,9 +170,18 @@ setUser({ ...initialUser, isOnline: false });
     const updated = habit.map((item) =>
       item.id === id ? { ...item, count: item.count + (item.countPerTap || 1) } : item
     );
+
+    const updatedUser = addRewards(user, {xp: 15, gold: 5});
+
+    setUser(updatedUser);
     setHabit(updated);
-    saveChangesToFirestore(updated, daily);
+   
+    saveChangesToFirestore(updated, daily, updatedUser);
   };
+
+
+
+
 
   // Decrement habit counter
   const decrementFunction = (id: string) => {
@@ -217,15 +232,31 @@ setUser({ ...initialUser, isOnline: false });
   // ---------------------------------------------------------------------------
   // 4. Daily task handlers
  
+// Toggle checkbox completion
+const checkedDailiesBox = (id: string) => {
+  // 1. Find the daily item before updating
+  const targetDaily = daily.find((item) => item.id === id);
+  if (!targetDaily) return;
 
-  // Toggle checkbox completion
-  const checkedDailiesBox = (id: string) => {
-    const updated = daily.map((item) =>
-      item.id === id ? { ...item, completed: !item.completed } : item
-    );
-    setDaily(updated);
-    saveChangesToFirestore(habit, updated);
-  };
+  // 2. Check if we are completing it (currently false, turning to true)
+  const isNowCompleted = !targetDaily.completed;
+
+  // 3. Update the daily state list
+  const updatedDailies = daily.map((item) =>
+    item.id === id ? { ...item, completed: isNowCompleted } : item
+  );
+
+  // 4. Only award rewards IF it was checked (turned to true)
+  let updatedUser = user;
+  if (isNowCompleted) {
+    updatedUser = addRewards(user, { xp: 10, gems: 1 });
+  }
+
+  // 5. Update React state and Firestore
+  setUser(updatedUser);
+  setDaily(updatedDailies);
+  saveChangesToFirestore(habit, updatedDailies, updatedUser);
+};
 
   // Open modal to add a new daily task
   const handleOpenAddDaily = () => {
@@ -333,6 +364,7 @@ setUser({ ...initialUser, isOnline: false });
             onDelete={triggerDailyDelete}
             onEdit={handleOpenEditDaily}
             onOpenAddModal={handleOpenAddDaily}
+
           />
         </div>
       </div>
@@ -343,6 +375,7 @@ setUser({ ...initialUser, isOnline: false });
         onClose={() => setIsHabitModalOpen(false)}
         onSave={handleSaveHabit}
         initialData={editingHabit}
+
       />
 
       <DailyModal

@@ -12,6 +12,7 @@ export interface UserProfile {
     gems: number;
     tro: number;
     isOnline:boolean;
+    title: string;
 
 }
 

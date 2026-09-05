@@ -3,17 +3,20 @@ import type { UserProfile } from "../types"
 import type { Habits } from "../types"
 import type { Dailies } from "../types"
 
+//This is a mocked data to test the UI before connecting real-time user data
 export const initialUser: UserProfile = {
 name: 'IrisSun',
 email: 'iris22@gmail.com', 
 avatar: '⚔️',
-level: 3, 
+level: 0, 
 lvlIcon: '⚜️',
-exp: 15,
-expMax:20,
-gold: 100,
-gems: 200,
-tro: 40,
+exp: 0,
+expMax:0,
+gold: 0,
+gems: 0,
+tro: 0,
+isOnline: false,
+title: ''
 }
 
 
