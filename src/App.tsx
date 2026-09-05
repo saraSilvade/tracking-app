@@ -20,6 +20,7 @@ import HabitModal from './components/HabitsModal';
 import DailyModal from './components/DailyModal';
 import DeleteConfirmationModal from './components/DeleteConfirmationModal';
 import UserAuth from './components/UserAuthModal';
+import AvatarModal from './components/UserAvatarModal';
 
 export default function App() {
   
@@ -48,10 +49,26 @@ export default function App() {
     title: string;
     type: 'habit' | 'daily';
   } | null>(null);
+ // Avatar Modal state 
+ const [isAvatarModalOpen, setIsAvatarModalOpen] = useState(false);
 
   // ---------------------------------------------------------------------------
   // Firebase Real Time Subscription 
 
+ const handleSelectAvatar = async (newAvatar: string) => {
+  if (!firebaseUser) return;
+
+  const updatedUser = { ...user, avatar: newAvatar };
+  setUser(updatedUser);
+
+  // Save profile update directly
+  try {
+    const userDocRef = doc(db, 'users', firebaseUser.uid);
+    await setDoc(userDocRef, { profile: updatedUser }, { merge: true });
+  } catch (error) {
+    console.error('Error updating avatar:', error);
+  }
+};
 
   // Listens to Auth changes and syncs Firestore document in real-time
   useEffect(() => {
@@ -73,6 +90,7 @@ export default function App() {
         level: initialUser.level, // Preserved or pulled from Firestore below
         exp: initialUser.exp,
         expMax: initialUser.expMax,
+        
       };
 
         const userDocRef = doc(db, 'users', currentUser.uid);
@@ -81,15 +99,26 @@ export default function App() {
         const unsubscribeSnapShot = onSnapshot(userDocRef, (docSnap) => {
           if (docSnap.exists()) {
             const data = docSnap.data();
+            const profile = data.profile || {};
             setHabit(data.habits || []);
             setDaily(data.dailies || []);
 
             // Merge stored level/xp with live auth data
           setUser({
-            ...dynamicUserData,
-            level: data.profile?.level ?? initialUser.level,
-            exp: data.profile?.exp ?? initialUser.exp,
-           expMax : data.profile?.maxXp ?? initialUser.expMax,
+            
+         ...initialUser,
+   name: profile.name || currentUser.displayName ,
+    email: currentUser.email || '',
+    avatar: profile.avatar || currentUser.photoURL || initialUser.avatar || '⚔️',
+    isOnline: true,
+    level: profile.level ?? initialUser.level,
+    lvlIcon: profile.lvlIcon || initialUser.lvlIcon || '🛡️',
+    exp: profile.exp ?? initialUser.exp,
+    expMax: profile.expMax ?? initialUser.expMax,
+    gold: profile.gold ?? initialUser.gold,
+    gems: profile.gems ?? initialUser.gems,
+    tro: profile.tro ?? initialUser.tro,
+           
           });
 
           } else {
@@ -115,12 +144,12 @@ setUser({ ...initialUser, isOnline: false });
   }, []);
 
   // Helper function to push state updates directly to Firestore
-  const saveChangesToFirestore = async (newHabit: Habits[], newDaily: Dailies[]) => {
+  const saveChangesToFirestore = async (newHabit: Habits[], newDaily: Dailies[], updatedUser : UserProfile) => {
     if (!firebaseUser) return;
 
     try {
       const userDocRef = doc(db, 'users', firebaseUser.uid);
-      await setDoc(userDocRef, { habits: newHabit, dailies: newDaily }, { merge: true });
+      await setDoc(userDocRef, { habits: newHabit, dailies: newDaily, profile: updatedUser || user }, { merge: true });
     } catch (error) {
       console.error('Error saving to Firestore:', error);
     }
@@ -284,7 +313,7 @@ setUser({ ...initialUser, isOnline: false });
         </div>
 
         {/* User Banner & Sub Header */}
-        <UserProfileBanner user={user} />
+        <UserProfileBanner openAvatarModal={()=> setIsAvatarModalOpen(true)} user={user} />
         <DashboardSubHeader />
 
         {/* Main Columns Grid */}
@@ -328,6 +357,15 @@ setUser({ ...initialUser, isOnline: false });
         title={confirmDelete?.title || ''}
         onConfirm={confirmBeforeDelete}
         onCancel={() => setConfirmDelete(null)}
+      />
+
+
+
+      <AvatarModal 
+      isOpen={isAvatarModalOpen}
+      onClose={()=> setIsAvatarModalOpen(false)}
+      onSelectAvatar={handleSelectAvatar}
+      currentAvatar={user.avatar}
       />
     </div>
   );

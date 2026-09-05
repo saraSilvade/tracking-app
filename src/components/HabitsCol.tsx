@@ -85,7 +85,7 @@ function HabitsCol({
               </div>
 
               {/* Dynamic Progress Bar */}
-              <div className="w-full h-1.5 bg-[#07090e] rounded-full overflow-hidden my-3 border border-glass-border/30">
+              <div className="w-full h-1.5 bg-app-bg rounded-full overflow-hidden my-3 border border-glass-border/30">
                 <div
                   className="h-full transition-all duration-300"
                   style={{
@@ -102,7 +102,7 @@ function HabitsCol({
                   onClick={() => habitDecrement(habit.id)}
                   className="w-8 h-8 rounded-lg bg-quest-purple border border-accent-purple text-accent-purple hover:bg-accent-purple hover:text-white flex items-center justify-center font-mono font-bold text-xs cursor-pointer transition-all shadow-[0_0_10px_rgba(168,85,247,0.2)]"
                 >
-                  -{habit.stepSize || 1}
+                  -{habit.countPerTap || 1}
                 </button>
 
                 <p className="text-xs font-mono text-text-muted">
@@ -114,7 +114,7 @@ function HabitsCol({
                   onClick={() => habitIncrement(habit.id)}
                   className="w-8 h-8 rounded-lg bg-accent-cyan-dimmed border border-accent-cyan text-accent-cyan hover:bg-accent-cyan hover:text-black flex items-center justify-center font-mono font-bold text-xs cursor-pointer transition-all shadow-[0_0_10px_rgba(56,189,248,0.2)]"
                 >
-                  +{habit.stepSize || 1}
+                  +{habit.countPerTap || 1}
                 </button>
               </div>
             </div>

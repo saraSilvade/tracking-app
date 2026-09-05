@@ -31,7 +31,7 @@ export default function DailiesCol({
         <button
           type="button"
           onClick={onOpenAddModal}
-          className="text-xs font-bold text-accent-purple bg-accent-purple/10 hover:bg-accent-purple/20 border border-accent-purple/40 px-3 py-1 rounded-xl transition-all cursor-pointer shadow-[0_0_10px_rgba(168,85,247,0.2)]"
+          className="text-xs font-bold text-accent-purple bg-accent-purple/10 hover:bg-accent-purple/20 border border-accent-purple/40 px-3 py-1 rounded-xl transition-all cursor-pointer shadow-[0_0_10px_rgba(168,85,247,0.2)] "
         >
           + New Daily
         </button>
