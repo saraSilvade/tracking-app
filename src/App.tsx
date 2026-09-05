@@ -63,6 +63,18 @@ export default function App() {
       }
 
       if (currentUser) {
+
+        // 1. Set dynamic user data directly from Firebase Auth
+      const dynamicUserData: UserProfile = {
+        name: currentUser.displayName || currentUser.email?.split('@')[0] || 'Adventurer',
+        email: currentUser.email || '',
+        avatar: currentUser.photoURL || undefined,
+        isOnline: true, // Dynamic active status while session is live
+        level: initialUser.level, // Preserved or pulled from Firestore below
+        exp: initialUser.exp,
+        expMax: initialUser.expMax,
+      };
+
         const userDocRef = doc(db, 'users', currentUser.uid);
         
         // Subscribe to real time updates from user's document
@@ -71,17 +83,28 @@ export default function App() {
             const data = docSnap.data();
             setHabit(data.habits || []);
             setDaily(data.dailies || []);
+
+            // Merge stored level/xp with live auth data
+          setUser({
+            ...dynamicUserData,
+            level: data.profile?.level ?? initialUser.level,
+            exp: data.profile?.exp ?? initialUser.exp,
+           expMax : data.profile?.maxXp ?? initialUser.expMax,
+          });
+
           } else {
             // Seed initial data if user has no document yet
-            setDoc(userDocRef, { habits: initialHabits, dailies: initialDailies }, { merge: true });
+            setDoc(userDocRef, { profile: { level: initialUser.level, exp: initialUser.exp, expMax: initialUser.expMax },habits: initialHabits, dailies: initialDailies }, { merge: true });
             setHabit(initialHabits);
             setDaily(initialDailies);
+                    setUser(dynamicUserData);
           }
           setLoading(false);
         });
 
         return () => unsubscribeSnapShot();
       } else {
+setUser({ ...initialUser, isOnline: false });
         setHabit([]);
         setDaily([]);
         setLoading(false);
@@ -256,7 +279,7 @@ export default function App() {
       <div className="max-w-7xl mx-auto">
         {/* Top Bar */}
         <div className="flex justify-between items-center mb-4">
-          <Header />
+          <Header user={user} />
           <LogoutButton />
         </div>
 

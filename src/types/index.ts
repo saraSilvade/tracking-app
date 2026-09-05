@@ -3,7 +3,7 @@
 export interface UserProfile {
     name: string;
     email: string;
-    avatar: string;
+    avatar?: string;
     level: number;
     lvlIcon: string;
     exp: number; 
@@ -11,6 +11,7 @@ export interface UserProfile {
     gold: number; 
     gems: number;
     tro: number;
+    isOnline:boolean;
 
 }
 

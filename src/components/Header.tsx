@@ -2,7 +2,15 @@ import React from 'react'
 import logo from '../asset/logo.svg'
 import { FaCircle } from "react-icons/fa";
 
-const Header = () => {
+import type { UserProfile } from '../types/index';
+
+
+interface UserProps {
+  user: UserProfile;
+}
+
+
+const Header = ({user} : UserProps) => {
   return (
   <header className=' w-full bg-glass-card border-b border-glass-border px-6 py-3 sticky top-0 z-50 backdrop-blur-md'>
     {/* wrapper */}
@@ -18,7 +26,7 @@ const Header = () => {
 
    {/* Navigation menu container */}
    <div> 
-    <nav className='flex gap-8 items-center text-sm font-medium font-semibold'>
+    <nav className='flex gap-8 items-center text-sm  font-semibold'>
         <a href='#' className='text-text-muted hover:text-quest-cyan transition-colors'>Dashboard</a>
         <a href='#' className='text-text-muted hover:text-quest-cyan transition-colors '>Rewards</a>
         <a href='#' className='text-text-muted hover:text-quest-cyan transition-colors'>Learn</a>
@@ -29,8 +37,12 @@ const Header = () => {
    {/* system online/offline */}
 
    <div className=' flex items-center gap-2.5'>
-    <FaCircle className='text-quest-green drop-shadow-[0_0_6px_#22c55e] ' />
-    <span className='text-quest-green tracking-wider drop-shadow-[0_0_6px_rgba(34,197,94,0.4)]  '>active</span>
+   
+<span >
+
+  {user.isOnline? <FaCircle className='text-accent-green'/> : <FaCircle className='bg-red-800'/>}
+  </span>
+          
 
    </div>
       </div>
