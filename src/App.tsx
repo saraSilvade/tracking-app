@@ -25,6 +25,9 @@ import { addRewards } from './utils/UserLevelMath';
 
 import type { FloatPopUpItem } from './types';
 import FloatUp from './components/FloatUp';
+
+import { sfx } from './utils/audio';
+
 export default function App() {
   
   //  States Management 
@@ -196,6 +199,7 @@ setUser({ ...initialUser, isOnline: false });
   // Increment habit counter
   const incrementFunction = (e:React.MouseEvent,    id: string) => {
     triggerPopUp(e, '+15 XP', '#38bdf8');
+    sfx.playHabitClick();
  
     const updated = habit.map((item) =>
       item.id === id ? { ...item, count: item.count + (item.countPerTap || 1) } : item
@@ -279,7 +283,8 @@ const checkedDailiesBox = (e: React.MouseEvent, id: string) => {
   // 4. Only award rewards IF it was checked (turned to true)
   let updatedUser = user;
   if (isNowCompleted) {
-      triggerPopUp(e, '+5 Gold', '#fcd34d');
+      triggerPopUp(e, '+1 Gem', '#4da5fc');
+      sfx.playDailyComplete();
     updatedUser = addRewards(user, { xp: 10, gems: 1 });
   }
 
