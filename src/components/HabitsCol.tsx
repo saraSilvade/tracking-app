@@ -4,7 +4,7 @@ import { FaDiamond } from "react-icons/fa6"
 
 interface HabitsPropList {
   habits: Habits[]
-  habitIncrement: (id: string) => void
+  habitIncrement: (e: React.MouseEvent, id: string) => void;
   habitDecrement: (id: string) => void
   onDelete: (id: string) => void
   onEdit: (habit: Habits) => void
@@ -112,7 +112,7 @@ function HabitsCol({
 
                 <button
                   type="button"
-                  onClick={() => habitIncrement(habit.id)}
+                  onClick={(e) => habitIncrement(e, habit.id)}
                
                   className="w-8 h-8 rounded-lg bg-accent-cyan-dimmed border border-accent-cyan text-accent-cyan hover:bg-accent-cyan hover:text-black flex items-center justify-center font-mono font-bold text-xs cursor-pointer transition-all shadow-[0_0_10px_rgba(56,189,248,0.2)]"
                 >

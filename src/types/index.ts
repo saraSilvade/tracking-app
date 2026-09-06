@@ -39,3 +39,12 @@ export interface Dailies {
   note?: string;
   
 }
+
+
+export interface FloatPopUpItem{
+  id: number;
+  y: number;
+  x: number;
+  text: string; 
+  color?: string;
+}

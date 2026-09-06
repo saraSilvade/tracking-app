@@ -23,6 +23,8 @@ import UserAuth from './components/UserAuthModal';
 import AvatarModal from './components/UserAvatarModal';
 import { addRewards } from './utils/UserLevelMath';
 
+import type { FloatPopUpItem } from './types';
+import FloatUp from './components/FloatUp';
 export default function App() {
   
   //  States Management 
@@ -52,6 +54,32 @@ export default function App() {
   } | null>(null);
  // Avatar Modal state 
  const [isAvatarModalOpen, setIsAvatarModalOpen] = useState(false);
+
+ const[pops, setpops] = useState<FloatPopUpItem[]> ([]);
+
+ //Trigger the pop Up
+ const triggerPopUp = (e: React.MouseEvent, text: string , color = '#38bdf8')=>{
+  const rect = e.currentTarget.getBoundingClientRect();
+
+  //Positioning the pop up 
+
+  const x = rect.left + rect.width / 2-20;
+  const y = rect.top -10;
+  const newPopUp : FloatPopUpItem ={
+    id : Date.now() + Math.random(),
+    x,
+    y,
+    text,
+    color
+
+  }
+setpops((prev)=>[...prev, newPopUp]);
+
+setTimeout(()=>{
+  setpops((prev)=> prev.filter((p) => p.id !== newPopUp.id))
+}, 800)
+
+ }
 
   // ---------------------------------------------------------------------------
   // Firebase Real Time Subscription 
@@ -166,13 +194,14 @@ setUser({ ...initialUser, isOnline: false });
 
 
   // Increment habit counter
-  const incrementFunction = (id: string) => {
+  const incrementFunction = (e:React.MouseEvent,    id: string) => {
+    triggerPopUp(e, '+15 XP', '#38bdf8');
+ 
     const updated = habit.map((item) =>
       item.id === id ? { ...item, count: item.count + (item.countPerTap || 1) } : item
     );
 
     const updatedUser = addRewards(user, {xp: 15, gold: 5});
-
     setUser(updatedUser);
     setHabit(updated);
    
@@ -233,7 +262,8 @@ setUser({ ...initialUser, isOnline: false });
   // 4. Daily task handlers
  
 // Toggle checkbox completion
-const checkedDailiesBox = (id: string) => {
+const checkedDailiesBox = (e: React.MouseEvent, id: string) => {
+
   // 1. Find the daily item before updating
   const targetDaily = daily.find((item) => item.id === id);
   if (!targetDaily) return;
@@ -249,6 +279,7 @@ const checkedDailiesBox = (id: string) => {
   // 4. Only award rewards IF it was checked (turned to true)
   let updatedUser = user;
   if (isNowCompleted) {
+      triggerPopUp(e, '+5 Gold', '#fcd34d');
     updatedUser = addRewards(user, { xp: 10, gems: 1 });
   }
 
@@ -400,6 +431,8 @@ const checkedDailiesBox = (id: string) => {
       onSelectAvatar={handleSelectAvatar}
       currentAvatar={user.avatar}
       />
+
+      <FloatUp pops={pops}/>
     </div>
   );
 }

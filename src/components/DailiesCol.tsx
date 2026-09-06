@@ -5,7 +5,7 @@ import { MdEdit } from "react-icons/md";
 
 interface DailiesColProps {
   dailies: Dailies[];
-  onChecked: (id: string) => void;
+  onChecked: (e: React.MouseEvent, id: string) => void;
   onDelete: (id: string) => void;
   onEdit: (daily: Dailies) => void;
   onOpenAddModal: () => void;
@@ -71,7 +71,7 @@ export default function DailiesCol({
               <input
                 type="checkbox"
                 checked={item.completed}
-                onChange={() => onChecked(item.id)}
+                onChange={(e) => onChecked(e, item.id)}
                 className="w-5 h-5 rounded border-glass-border bg-[#07090e] accent-accent-purple cursor-pointer"
               />
               <span className="text-xl">{item.icon || '⚔️'}</span>
