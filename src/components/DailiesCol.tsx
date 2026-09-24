@@ -11,6 +11,8 @@ interface DailiesColProps {
   onOpenAddModal: () => void;
 }
 
+
+
 export default function DailiesCol({
   dailies,
   onChecked,

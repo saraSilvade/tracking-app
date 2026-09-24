@@ -28,6 +28,7 @@ import FloatUp from './components/FloatUp';
 
 import { sfx } from './utils/audio';
 
+
 export default function App() {
   
   //  States Management 
@@ -108,7 +109,7 @@ setTimeout(()=>{
 };
 
   // Listens to Auth changes and syncs Firestore document in real-time
-  useEffect(() => {
+  useEffect(() => {    
     const unsubscribeAuth = onAuthStateChanged(auth, (currentUser) => {
       setFirebaseUser(currentUser);
 
@@ -176,6 +177,9 @@ setUser({ ...initialUser, isOnline: false });
         setLoading(false);
       }
     });
+
+
+    
 
     return () => unsubscribeAuth();
   }, []);

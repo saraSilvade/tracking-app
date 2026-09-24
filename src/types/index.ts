@@ -37,7 +37,7 @@ export interface Dailies {
   completed: boolean;
   streakDays?: number;
   note?: string;
-  
+
 }
 
 
@@ -48,3 +48,4 @@ export interface FloatPopUpItem{
   text: string; 
   color?: string;
 }
+
